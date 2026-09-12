@@ -18,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.layout.fillMaxWidth
 
+
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +36,9 @@ class MainActivity : ComponentActivity() {
 fun BookRegisterScreen() {
 
     var title by remember {
+        mutableStateOf("")
+    }
+    var author by remember {
         mutableStateOf("")
     }
 
@@ -57,6 +61,16 @@ fun BookRegisterScreen() {
             onValueChange = { title = it },
             label = {
                 Text("Título del libro")
+            },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        OutlinedTextField(
+            value = author,
+            onValueChange = { author = it },
+            label = {
+                Text("Autor")
             },
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
