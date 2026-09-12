@@ -17,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.runtime.*
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.layout.fillMaxWidth
+import android.content.Context
+import android.widget.Toast
 
 
 class MainActivity : ComponentActivity() {
@@ -44,6 +46,10 @@ fun BookRegisterScreen() {
     var pagesRead by remember {
         mutableStateOf("")
     }
+
+    val context = LocalContext.current
+
+    val fileName = "libro_registro.txt"
 
     Column(
         modifier = Modifier
@@ -78,7 +84,7 @@ fun BookRegisterScreen() {
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
-        
+
         OutlinedTextField(
             value = pagesRead,
             onValueChange = { pagesRead = it },
@@ -91,6 +97,33 @@ fun BookRegisterScreen() {
                 keyboardType = KeyboardType.Number
             )
         )
+        Button(
+            onClick = {
+
+                val fileContent =
+                    "Título: $title\n" +
+                    "Autor: $author\n" +
+                    "Páginas leídas: $pagesRead\n"
+
+                context.openFileOutput(
+                    fileName,
+                    Context.MODE_PRIVATE
+                ).use { outputStream ->
+
+                    outputStream.write(
+                        fileContent.toByteArray()
+                    )
+                }
+
+                Toast.makeText(
+                    context,
+                    "¡Libro guardado exitosamente!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        ) {
+            Text("Guardar")
+        }
         
     }
 }
