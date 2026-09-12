@@ -41,6 +41,9 @@ fun BookRegisterScreen() {
     var author by remember {
         mutableStateOf("")
     }
+    var pagesRead by remember {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -75,5 +78,19 @@ fun BookRegisterScreen() {
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
+        
+        OutlinedTextField(
+            value = pagesRead,
+            onValueChange = { pagesRead = it },
+            label = {
+                Text("Páginas leídas")
+            },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
+        )
+        
     }
 }
