@@ -49,6 +49,9 @@ fun BookRegisterScreen() {
     var pagesRead by remember {
         mutableStateOf("")
     }
+    var savedRecordText by remember {
+        mutableStateOf("No se ha cargado ningún registro.")
+    }
 
     val context = LocalContext.current
 
@@ -146,6 +149,30 @@ fun BookRegisterScreen() {
                         val content = reader.readText()
                         Log.d(tagLog,"=== REGISTRO DEL LIBRO ===")
                         Log.d(tagLog,content)
+                        savedRecordText = content
+                        Card(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+
+                            Column(
+                                modifier = Modifier.padding(16.dp)
+                            ) {
+
+                                Text(
+                                    text = "Contenido leído del archivo:",
+                                    fontWeight = FontWeight.SemiBold
+                                )
+
+                                Spacer(
+                                    modifier = Modifier.height(8.dp)
+                                )
+
+                                Text(
+                                    text = savedRecordText,
+                                    fontSize = 15.sp
+                                )
+                            }
+                        }
                         Log.d(tagLog,"==========================")
 
                         Toast.makeText(
