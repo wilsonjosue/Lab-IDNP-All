@@ -144,6 +144,9 @@ fun BookRegisterScreen() {
                             )
 
                         val content = reader.readText()
+                        Log.d(tagLog,"=== REGISTRO DEL LIBRO ===")
+                        Log.d(tagLog,content)
+                        Log.d(tagLog,"==========================")
 
                         Toast.makeText(
                             context,
@@ -165,5 +168,6 @@ fun BookRegisterScreen() {
             Text("Ver registro")
         }
         
+
     }
 }
