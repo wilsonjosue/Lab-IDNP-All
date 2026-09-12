@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.runtime.*
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.layout.fillMaxWidth
 
 class MainActivity : ComponentActivity() {
 
@@ -31,6 +34,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun BookRegisterScreen() {
 
+    var title by remember {
+        mutableStateOf("")
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,6 +50,16 @@ fun BookRegisterScreen() {
             text = "Registro de Lectura",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
+        )
+
+        OutlinedTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = {
+                Text("Título del libro")
+            },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
