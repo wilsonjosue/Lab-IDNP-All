@@ -106,6 +106,21 @@ fun BookRegisterScreen() {
             )
         )
 
+        if (
+            title.isBlank() ||
+            author.isBlank() ||
+            pagesRead.isBlank()
+        ) {
+
+            Toast.makeText(
+                context,
+                "Por favor complete todos los campos",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            return@Button
+        }
+
         Button(
             onClick = {
 
@@ -133,6 +148,7 @@ fun BookRegisterScreen() {
         ) {
             Text("Guardar")
         }
+        
 
         OutlinedButton(
             onClick = {
