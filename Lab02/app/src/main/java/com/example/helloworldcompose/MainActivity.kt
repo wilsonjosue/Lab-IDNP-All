@@ -19,6 +19,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.foundation.layout.fillMaxWidth
 import android.content.Context
 import android.widget.Toast
+import android.util.Log
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 
 class MainActivity : ComponentActivity() {
@@ -50,6 +53,8 @@ fun BookRegisterScreen() {
     val context = LocalContext.current
 
     val fileName = "libro_registro.txt"
+
+    val tagLog = "REGISTRO_LIBRO"
 
     Column(
         modifier = Modifier
@@ -97,6 +102,7 @@ fun BookRegisterScreen() {
                 keyboardType = KeyboardType.Number
             )
         )
+
         Button(
             onClick = {
 
@@ -123,6 +129,40 @@ fun BookRegisterScreen() {
             }
         ) {
             Text("Guardar")
+        }
+
+        OutlinedButton(
+            onClick = {
+
+                try {
+
+                    context.openFileInput(fileName).use { inputStream ->
+
+                        val reader =
+                            BufferedReader(
+                                InputStreamReader(inputStream)
+                            )
+
+                        val content = reader.readText()
+
+                        Toast.makeText(
+                            context,
+                            "Registro cargado",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                } catch (e: Exception) {
+
+                    Toast.makeText(
+                        context,
+                        "No hay registros guardados",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        ) {
+            Text("Ver registro")
         }
         
     }
