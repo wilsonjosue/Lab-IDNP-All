@@ -59,13 +59,13 @@ val listaEdificios = listOf(
     Edificio(
         nombre = "Biblioteca Central",
         descripcion = "Zona de estudio y préstamo de libros",
-        imagenRes = R.drawable.biblioteca,
+        imagenRes = R.drawable.biblioteca1,
         colorFondo = Color(0xFFE3F2FD)
     ),
     Edificio(
         nombre = "Comedor Universitario",
         descripcion = "Servicio de alimentación para estudiantes",
-        imagenRes = R.drawable.comedor,
+        imagenRes = R.drawable.comedor1,
         colorFondo = Color(0xFFFFF3E0)
     ),
     Edificio(
