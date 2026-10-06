@@ -15,7 +15,7 @@ class SeleccionViewModel : ViewModel() {
     var edificioSeleccionado by mutableStateOf("Ninguno")
         private set
 
-    // Método para mutar el estado desde EdificiosScreen
+    //Metodo para mutar el estado desde EdificiosScreen
     fun seleccionarEdificio(nuevoEdificio: String) {
         edificioSeleccionado = nuevoEdificio
     }
