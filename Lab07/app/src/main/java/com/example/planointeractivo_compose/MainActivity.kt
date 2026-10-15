@@ -3,13 +3,12 @@ package com.example.planointeractivo_compose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -31,11 +30,12 @@ import com.example.planointeractivo_compose.ui.theme.PlanoInteractivo_ComposeThe
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             PlanoInteractivo_ComposeTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    PlanoAmbienteScreen()
-                }
+                // La app arranca en la navegación del Lab 05/06;
+                // el plano se abre desde la pestaña Mapa
+                MainScreen()
             }
         }
     }

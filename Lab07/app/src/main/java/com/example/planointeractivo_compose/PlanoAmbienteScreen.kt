@@ -5,8 +5,13 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -25,9 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 
+// Para el lab 04: onBack permite volver a MapaScreen cuando
+// el plano se abre desde la navegación (null = sin botón de volver)
 @Composable
 fun PlanoAmbienteScreen(
-    viewModel: PlanoViewModel = viewModel()
+    viewModel: PlanoViewModel = viewModel(),
+    onBack: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
 
@@ -41,9 +49,24 @@ fun PlanoAmbienteScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (onBack != null) {
+            TextButton(
+                onClick = onBack,
+                modifier = Modifier.align(Alignment.Start)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Volver"
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Volver al mapa")
+            }
+        }
+
         Text(
             text = "Plano del Pabellón de Sistemas",
             fontWeight = FontWeight.Bold,

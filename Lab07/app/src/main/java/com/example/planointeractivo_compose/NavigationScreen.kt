@@ -38,9 +38,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.planointeractivo_compose.ui.theme.PlanoInteractivo_ComposeTheme
 
-// ───────────────────────────────────────────────
 // Modelo de datos para cada edificio del campus
-// ───────────────────────────────────────────────
 data class Edificio(
     val nombre: String,
     val descripcion: String,
@@ -48,7 +46,7 @@ data class Edificio(
     val colorFondo: Color
 )
 
-// Lista de al menos 4 edificios del campus (Lab 06)
+// Lista de al menos 4 edificios del campus 
 val listaEdificios = listOf(
     Edificio(
         nombre = "Edificio Principal UNSA",
@@ -76,20 +74,19 @@ val listaEdificios = listOf(
     )
 )
 
-// ───────────────────────────────────────────────
 // Rutas de navegación (mismo patrón del Lab 05)
-// ───────────────────────────────────────────────
+// Se agrega la ruta "plano"
+// Ojo:no aparece en la barra inferior, se abre desde MapaScreen
+
 sealed class Screen(val route: String, val label: String) {
     object Home : Screen("home", "Home")
     object Edificios : Screen("edificios", "Edificios")
     object Mapa : Screen("mapa", "Mapa")
     object Perfil : Screen("perfil", "Perfil")
+    object Plano : Screen("plano", "Plano")
 }
 
-// ───────────────────────────────────────────────
-// MainScreen con bottom navigation (Lab 05)
-// + ruta de detalle (Lab 06)
-// ───────────────────────────────────────────────
+// MainScreen con bottom navigation (Lab 05) + ruta de detalle (Lab 06)
 @Composable
 fun MainScreen(viewModel: SeleccionViewModel = viewModel()) {
     val navController = rememberNavController()
@@ -108,12 +105,16 @@ fun MainScreen(viewModel: SeleccionViewModel = viewModel()) {
                     val icon = when (screen) {
                         Screen.Home -> Icons.Default.Home
                         Screen.Edificios -> Icons.AutoMirrored.Filled.List
-                        Screen.Mapa -> Icons.Default.Place
+                        Screen.Mapa, Screen.Plano -> Icons.Default.Place
                         Screen.Perfil -> Icons.Default.Person
                     }
 
+                    // El plano es una sub-pantalla del Mapa: mantiene "Mapa" resaltado
+                    val seleccionado = currentRoute == screen.route ||
+                            (screen == Screen.Mapa && currentRoute == Screen.Plano.route)
+
                     NavigationBarItem(
-                        selected = currentRoute == screen.route,
+                        selected = seleccionado,
                         onClick = {
                             if (currentRoute != screen.route) {
                                 navController.navigate(screen.route) {
@@ -150,8 +151,18 @@ fun MainScreen(viewModel: SeleccionViewModel = viewModel()) {
                 )
             }
 
+            //MapaScreen ofrece el acceso al plano
             composable(Screen.Mapa.route) {
-                MapaScreen()
+                MapaScreen(
+                    onAbrirPlano = { navController.navigate(Screen.Plano.route) }
+                )
+            }
+
+            //Nueva pantalla con el plano interactivo (Canvas)
+            composable(Screen.Plano.route) {
+                PlanoAmbienteScreen(
+                    onBack = { navController.popBackStack() }
+                )
             }
 
             composable(Screen.Perfil.route) {
@@ -173,9 +184,8 @@ fun MainScreen(viewModel: SeleccionViewModel = viewModel()) {
     }
 }
 
-// ───────────────────────────────────────────────
-// HomeScreen (Lab 05) — lee el estado del ViewModel
-// ───────────────────────────────────────────────
+// HomeScreen — lee el estado del ViewModel
+
 @Composable
 fun HomeScreen(viewModel: SeleccionViewModel) {
     val edificio = viewModel.edificioSeleccionado
@@ -222,10 +232,8 @@ fun HomeScreen(viewModel: SeleccionViewModel) {
     }
 }
 
-// ───────────────────────────────────────────────
 // Estilo 1: TarjetaLugar (Lab 06)
-// (Row / Franja Horizontal con imagen circular)
-// ───────────────────────────────────────────────
+// Se muestra en Row / Franja Horizontal con imagen circular
 @Composable
 fun TarjetaLugar(
     nombre: String,
@@ -267,10 +275,9 @@ fun TarjetaLugar(
     }
 }
 
-// ───────────────────────────────────────────────
-// Estilo 2: TarjetaCompacta (Lab 06)
+// Ahregamos un estilo 2: TarjetaCompacta del Lab 06
 // (Box / Apilado con Scrim)
-// ───────────────────────────────────────────────
+
 @Composable
 fun TarjetaCompacta(
     nombre: String,
@@ -306,10 +313,8 @@ fun TarjetaCompacta(
     }
 }
 
-// ───────────────────────────────────────────────
-// EdificiosScreen (Lab 06): lista de TarjetaLugar +
-// TarjetaCompacta; al pulsar navega al detalle
-// ───────────────────────────────────────────────
+// EdificiosScreen (Lab 06): lista de TarjetaLugar + TarjetaCompacta; al pulsar navega al detalle
+
 @Composable
 fun EdificiosScreen(viewModel: SeleccionViewModel, navController: NavController) {
     LazyColumn(
@@ -368,9 +373,8 @@ fun EdificiosScreen(viewModel: SeleccionViewModel, navController: NavController)
     }
 }
 
-// ───────────────────────────────────────────────
 // DetalleLugarScreen (Lab 06)
-// ───────────────────────────────────────────────
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetalleLugarScreen(
@@ -448,25 +452,72 @@ fun DetalleLugarScreen(
     }
 }
 
-// ───────────────────────────────────────────────
 // MapaScreen (Lab 05)
-// ───────────────────────────────────────────────
+// Para el laboratorio numero 7: antes solo mostraba "Módulo en desarrollo"; ahora muestra una tarjeta del
+// Pabellón de Sistemas que abre el plano interactivo.
+
 @Composable
-fun MapaScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+fun MapaScreen(onAbrirPlano: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "📍 Mapa de ubicaciones del campus\n(Módulo en desarrollo)",
-            style = MaterialTheme.typography.bodyLarge
+            text = "📍 Mapa de ubicaciones del campus",
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold
         )
+        Text(
+            text = "Selecciona una edificación para ver su plano interior.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = Color.Gray
+        )
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Column {
+                // Reutilización de TarjetaCompacta (Lab 06); toda la imagen es clickeable
+                TarjetaCompacta(
+                    nombre = "Pabellón de Sistemas",
+                    imagen = painterResource(id = R.drawable.pabellon_ingenierias),
+                    modifier = Modifier.clickable { onAbrirPlano() }
+                )
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "Plano interactivo",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 18.sp
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "4 ambientes: CiTeSoft, Auditorio, Taller de Robótica y Patio Central. " +
+                                "Toca los marcadores del plano para ver su información.",
+                        fontSize = 14.sp
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Button(
+                        onClick = onAbrirPlano,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Place,
+                            contentDescription = null
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Ver plano interactivo")
+                    }
+                }
+            }
+        }
     }
 }
 
-// ───────────────────────────────────────────────
-// PerfilScreen (Lab 05)
-// ───────────────────────────────────────────────
+// PerfilScreen del Lab 05
 @Composable
 fun PerfilScreen() {
     Column(
@@ -504,9 +555,9 @@ fun PerfilScreen() {
     }
 }
 
-// ───────────────────────────────────────────────
+
 // Previews
-// ───────────────────────────────────────────────
+
 @Preview(showBackground = true)
 @Composable
 fun TarjetaLugarPreview() {
@@ -528,6 +579,14 @@ fun TarjetaCompactaPreview() {
             nombre = "Comedor Universitario",
             imagen = painterResource(id = R.drawable.comedor)
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun MapaScreenPreview() {
+    PlanoInteractivo_ComposeTheme {
+        MapaScreen(onAbrirPlano = {})
     }
 }
 
