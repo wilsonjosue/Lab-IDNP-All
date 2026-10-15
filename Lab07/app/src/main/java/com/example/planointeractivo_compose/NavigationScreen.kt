@@ -275,7 +275,7 @@ fun TarjetaLugar(
     }
 }
 
-// Ahregamos un estilo 2: TarjetaCompacta del Lab 06
+// Agregamos un estilo 2: TarjetaCompacta del Lab 06
 // (Box / Apilado con Scrim)
 
 @Composable
