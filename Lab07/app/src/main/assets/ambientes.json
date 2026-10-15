@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "x": 95.0,
+    "y": 130.0,
+    "radio": 30.0,
+    "titulo": "CiTeSoft",
+    "descripcion": "Centro de Investigación, Transferencia de Tecnología y Desarrollo de Software. Espacio para proyectos de investigación y desarrollo de software de la Escuela de Ingeniería de Sistemas."
+  },
+  {
+    "id": 2,
+    "x": 265.0,
+    "y": 130.0,
+    "radio": 30.0,
+    "titulo": "Auditorio",
+    "descripcion": "Aula Magna del pabellón. Se usa para conferencias, sustentaciones de tesis y eventos académicos."
+  },
+  {
+    "id": 3,
+    "x": 95.0,
+    "y": 330.0,
+    "radio": 30.0,
+    "titulo": "Taller de Robótica",
+    "descripcion": "Taller para actividades de mecatrónica, electrónica y desarrollo de hardware."
+  },
+  {
+    "id": 4,
+    "x": 265.0,
+    "y": 330.0,
+    "radio": 30.0,
+    "titulo": "Patio Central",
+    "descripcion": "Zona de encuentro y descanso de los estudiantes del Pabellón de Sistemas."
+  }
+]
