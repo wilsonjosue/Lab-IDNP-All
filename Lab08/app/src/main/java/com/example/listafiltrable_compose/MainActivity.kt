@@ -13,7 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.SportsSoccer
 import androidx.compose.material3.*
@@ -26,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -135,7 +136,7 @@ fun iconoPorCategoria(categoria: String): ImageVector = when (categoria) {
     "Académico" -> Icons.Default.School
     "Investigación" -> Icons.Default.Build
     "Deportes" -> Icons.Default.SportsSoccer
-    "Servicios" -> Icons.Default.MenuBook
+    "Servicios" -> Icons.AutoMirrored.Filled.MenuBook
     else -> Icons.Default.School
 }
 
@@ -153,10 +154,11 @@ fun colorPorCategoria(categoria: String): Color = when (categoria) {
 @Composable
 fun FilaEdificio(edificio: Edificio, onClick: () -> Unit = {}) {
     val context = LocalContext.current
+    val resources = LocalResources.current
     // Busca en res/drawable la foto indicada en edificios.txt (0 si no existe)
     val imagenRes = remember(edificio.imagen) {
         if (edificio.imagen.isBlank()) 0
-        else context.resources.getIdentifier(edificio.imagen, "drawable", context.packageName)
+        else resources.getIdentifier(edificio.imagen, "drawable", context.packageName)
     }
 
     TarjetaLugar(
