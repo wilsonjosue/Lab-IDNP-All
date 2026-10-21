@@ -14,7 +14,7 @@ class EdificiosViewModel : ViewModel() {
 
     var categoriaSeleccionada by mutableStateOf("Todas")
 
-    // Ejercicio 1: lee assets/edificios.txt con formato id;nombre;categoria;descripcion
+    // Ejercicio 1: lee assets/edificios.txt con formato id;nombre;categoria;descripcion;imagen
     fun cargarDatosDesdeArchivo(context: Context) {
         if (listaCompleta.isNotEmpty()) return
 
@@ -26,7 +26,9 @@ class EdificiosViewModel : ViewModel() {
                     id = partes[0].trim().toInt(),
                     nombre = partes[1].trim(),
                     categoria = partes[2].trim(),
-                    descripcion = partes[3].trim()
+                    descripcion = partes[3].trim(),
+                    // Ejercicio 4: 5.º campo opcional con el nombre del drawable
+                    imagen = partes.getOrElse(4) { "" }.trim()
                 )
             }
         } catch (e: Exception) {

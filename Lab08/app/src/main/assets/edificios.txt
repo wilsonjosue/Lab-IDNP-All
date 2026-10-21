@@ -1,8 +1,8 @@
-1;Pabellón Nicholson;Académico;Edificio histórico y emblemático de Ingeniería Civil, caracterizado por sus aulas teóricas y laboratorios estructurales.
-2;INFOUNSA;Investigación;Centro de informática y telecomunicaciones de la UNSA, dedicado a la capacitación especializada en TI y desarrollo de software.
-3;Estadio Ho Chi Minh;Deportes;Complejo deportivo del Área de Ingenierías con cancha de fútbol reglamentaria y pista para actividades atléticas universitarias.
-4;Facultad de Arquitectura y Urbanismo;Académico;Moderno complejo de talleres de diseño arquitectónico, maquetación, laboratorios bioclimáticos y auditorios.
-5;Biblioteca de Ingenierías;Servicios;Espacio de investigación bibliográfica, consulta de tesis físicas y digitales, y salas de estudio para estudiantes de ingeniería.
-6;Panificadora de la UNSA;Servicios;Centro productivo universitario orientado a la elaboración y distribución de productos de panificación para la comunidad agustina.
-7;Biblioteca de Humanidades;Servicios;Acervo bibliográfico especializado en ciencias sociales, educación, literatura y filosofía, con salas de lectura y hemeroteca.
-8;Comedor Ingeniería - UNSA;Servicios;Servicio integral de bienestar universitario que brinda alimentación balanceada y subvencionada a los estudiantes del área de ingenierías.
+1;Pabellón Nicholson;Académico;Edificio histórico y emblemático de Ingeniería Civil, caracterizado por sus aulas teóricas y laboratorios estructurales.;pabellon_nicholson
+2;INFOUNSA;Investigación;Centro de informática y telecomunicaciones de la UNSA, dedicado a la capacitación especializada en TI y desarrollo de software.;infounsa
+3;Estadio Ho Chi Minh;Deportes;Complejo deportivo del Área de Ingenierías con cancha de fútbol reglamentaria y pista para actividades atléticas universitarias.;estadio_ho_chi_minh
+4;Facultad de Arquitectura y Urbanismo;Académico;Moderno complejo de talleres de diseño arquitectónico, maquetación, laboratorios bioclimáticos y auditorios.;facultad_arquitectura
+5;Biblioteca de Ingenierías;Servicios;Espacio de investigación bibliográfica, consulta de tesis físicas y digitales, y salas de estudio para estudiantes de ingeniería.;biblioteca_ingenierias
+6;Panificadora de la UNSA;Servicios;Centro productivo universitario orientado a la elaboración y distribución de productos de panificación para la comunidad agustina.;panificadora_unsa
+7;Biblioteca de Humanidades;Servicios;Acervo bibliográfico especializado en ciencias sociales, educación, literatura y filosofía, con salas de lectura y hemeroteca.;biblioteca_humanidades
+8;Comedor Ingeniería - UNSA;Servicios;Servicio integral de bienestar universitario que brinda alimentación balanceada y subvencionada a los estudiantes del área de ingenierías.;comedor_ingenierias
