@@ -12,6 +12,8 @@ class EdificiosViewModel : ViewModel() {
 
     var textoBusqueda by mutableStateOf("")
 
+    var categoriaSeleccionada by mutableStateOf("Todas")
+
     // Ejercicio 1: lee assets/edificios.txt con formato id;nombre;categoria;descripcion
     fun cargarDatosDesdeArchivo(context: Context) {
         if (listaCompleta.isNotEmpty()) return
@@ -32,9 +34,12 @@ class EdificiosViewModel : ViewModel() {
         }
     }
 
+    // Ejercicio 3: combina el filtro por texto con el filtro por categoría
     val edificiosFiltrados: List<Edificio>
         get() = listaCompleta.filter { edificio ->
-            edificio.nombre.contains(textoBusqueda, ignoreCase = true) ||
+            val coincideTexto = edificio.nombre.contains(textoBusqueda, ignoreCase = true) ||
                     edificio.descripcion.contains(textoBusqueda, ignoreCase = true)
+            val coincideCategoria = categoriaSeleccionada == "Todas" || edificio.categoria == categoriaSeleccionada
+            coincideTexto && coincideCategoria
         }
 }
