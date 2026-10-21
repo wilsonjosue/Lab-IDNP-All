@@ -17,16 +17,15 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.listafiltrable_compose.ui.theme.ListaFiltrable_ComposeTheme
 
 // Paso 3: modelo de datos de cada edificio
@@ -52,37 +51,27 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-// Pasos 4 a 7: lista de muestra + buscador + lista filtrada con LazyColumn
+// Ejercicio 1: los edificios ya no están en el código, se cargan desde assets/edificios.txt
 @Composable
-fun ListaEdificios() {
-    val edificios = remember {
-        listOf(
-            Edificio(1, "Biblioteca Central", "Servicios", "Préstamo de libros y salas de estudio"),
-            Edificio(2, "Comedor Universitario", "Servicios", "Alimentación para estudiantes"),
-            Edificio(3, "Facultad de Ingeniería", "Académico", "Aulas y laboratorios de ingeniería"),
-            Edificio(4, "Facultad de Ciencias", "Académico", "Aulas y laboratorios de ciencias"),
-            Edificio(5, "Coliseo Universitario", "Deportes", "Actividades deportivas y eventos"),
-            Edificio(6, "Auditorio Central", "Eventos", "Conferencias y ceremonias")
-        )
+fun ListaEdificios(viewModel: EdificiosViewModel = viewModel()) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.cargarDatosDesdeArchivo(context)
     }
-    var texto by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         OutlinedTextField(
-            value = texto,
-            onValueChange = { texto = it },
-            label = { Text("Buscar edificio") },
-            modifier = Modifier.fillMaxWidth()
+            value = viewModel.textoBusqueda,
+            onValueChange = { viewModel.textoBusqueda = it },
+            label = { Text("Buscar por nombre o descripción...") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Se recalcula en cada recomposición, es decir, en cada tecla pulsada
-        val edificiosFiltrados = edificios.filter {
-            it.nombre.contains(texto, ignoreCase = true)
-        }
-
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(edificiosFiltrados, key = { it.id }) { edificio ->
+            items(viewModel.edificiosFiltrados, key = { it.id }) { edificio ->
                 FilaEdificio(edificio)
             }
         }
